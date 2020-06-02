@@ -1,16 +1,15 @@
 #pragma warning(disable:4996)
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "Line.h"
 
 int main(int argc, char** argv) {
 	FILE* InFile = fopen("x.asm", "r");
 
-	char linebuffer[100];
+	struct line line = lineread(InFile);
 
-	fgets(linebuffer, 100, InFile);
+	printf("%s %s %s", line.instr, line.params[0], line.params[1]);
 
-	printf("%s", linebuffer);
+	freeline(&line);
 
 	fclose(InFile);
 
