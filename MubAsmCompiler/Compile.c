@@ -8,11 +8,13 @@ void Compile(const char* Filename) {
 		return;
 	}
 
-	struct line line = lineread(InFile);
+	while (!feof(InFile)) {
+		struct line line = lineread(InFile);
 
-	ConvToBin(&line);
+		ConvToBin(&line);
 
-	//Cleanup
-	freeline(&line);
+		freeline(&line);
+	}
+
 	fclose(InFile);
 }

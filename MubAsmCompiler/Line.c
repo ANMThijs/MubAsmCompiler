@@ -12,6 +12,9 @@ struct line lineread(FILE* file) {
 	//Get a line from the file
 	uint8_t linebuffer[99] = { 0 };
 	fgets(linebuffer, 99, file);
+	while ((linebuffer[0] == '\0') || (linebuffer[0] == '\n')) {
+		fgets(linebuffer, 99, file);
+	}
 
 	//used for finding the right buffer for the content
 	int location = 0;
@@ -20,17 +23,14 @@ struct line lineread(FILE* file) {
 	printf("input:     ");
 	for (int i = 0; i < 99; i++) {
 		printf("%c", linebuffer[i]);
-		if (linebuffer[i] == '\n') {
+		if ((linebuffer[i] == '\n') || (linebuffer[i] == '\0')) {
 			break;
 		}
 		else if (linebuffer[i] == ' ') {
 			location++;
 			x = 0;
 		}
-		else if (linebuffer[i] == ',') {
-			//skip this character
-		}
-		else {
+		else if (linebuffer[i] != ',') {
 			if (location == 0) {
 				line.instr[x] = linebuffer[i];
 			}
@@ -51,7 +51,7 @@ void ConvToBin(struct line* line) {
 	line->opcode[0] = Movgetopcode(line->params[0]);
 	line->paramsbin = GetParams(line->instr, line->params, line->paramcount);
 
-	printf("output:    %02hhx %02hhx", line->opcode[0], line->paramsbin[0]);
+	printf("output:    %02hhx %02hhx\n", line->opcode[0], line->paramsbin[0]);
 }
 
 void freeline(struct line* line) {
