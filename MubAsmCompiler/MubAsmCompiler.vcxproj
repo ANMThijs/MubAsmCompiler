@@ -139,11 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharToInt.c" />
+    <ClCompile Include="Compile.c" />
     <ClCompile Include="Line.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="Mov.c" />
+    <ClCompile Include="Params.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharToInt.h" />
+    <ClInclude Include="Compile.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="Mov.h" />
+    <ClInclude Include="Params.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

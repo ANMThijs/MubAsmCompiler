@@ -2,14 +2,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct line {
-	char instr[6];
-	char params[4][10];
+#include "Mov.h"
+#include "Params.h"
 
-	int* opcode;
-	int* paramsbin;
+#define MAXINSTRLENGTH 6
+#define MAXPARAMCOUNT 4
+#define MAXPARAMLENGTH 10
+
+struct line {
+	uint8_t* instr;
+	uint8_t** params;
+	uint8_t paramcount;
+
+	uint8_t opcode[2];
+	uint8_t* paramsbin;
 };
 
 struct line lineread(FILE* file);
+
+void ConvToBin(struct line* line);
 
 void freeline(struct line* line);

@@ -1,1 +1,1 @@
-mov AL, 0x01
+mov AL, 0xfe

@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Opcodes">
+      <UniqueIdentifier>{a26949db-28a4-4a0f-89d8-1c9d8e83c7bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Params">
+      <UniqueIdentifier>{550b63d5-a1dd-4753-8aa7-e0b22e3cd60e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{1afcfc0b-4125-4b8a-9b70-87c1a328f20b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
@@ -21,9 +30,33 @@
     <ClCompile Include="Line.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Mov.c">
+      <Filter>Source Files\Opcodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Params.c">
+      <Filter>Source Files\Params</Filter>
+    </ClCompile>
+    <ClCompile Include="CharToInt.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Compile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Line.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mov.h">
+      <Filter>Source Files\Opcodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Params.h">
+      <Filter>Source Files\Params</Filter>
+    </ClInclude>
+    <ClInclude Include="CharToInt.h">
+      <Filter>Source Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Compile.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
