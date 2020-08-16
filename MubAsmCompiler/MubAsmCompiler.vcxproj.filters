@@ -42,6 +42,12 @@
     <ClCompile Include="Compile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Register.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Datatypes.c">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Line.h">
@@ -59,5 +65,16 @@
     <ClInclude Include="Compile.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Register.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Datatypes.h">
+      <Filter>Source Files\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="OpcodesOneByte.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
