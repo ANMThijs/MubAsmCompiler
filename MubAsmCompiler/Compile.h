@@ -3,3 +3,5 @@
 #include "Register.h"
 
 void Compile(const char* Filename);
+
+void DeleteComments(FILE* file);

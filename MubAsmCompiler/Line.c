@@ -10,10 +10,14 @@ struct line lineread(FILE* file) {
 	}
 
 	//Get a line from the file
-	uint8_t linebuffer[99] = { 0 };
-	fgets(linebuffer, 99, file);
+	unsigned char linebuffer[256] = { 0 };
+	fgets(linebuffer, 256, file);
 	while ((linebuffer[0] == '\0') || (linebuffer[0] == '\n')) {
-		fgets(linebuffer, 99, file);
+		if (feof(file)) {
+			line.instr = "NOP"; //No-op instruction
+			return line;
+		}
+		fgets(linebuffer, 256, file);
 	}
 
 	//used for finding the right buffer for the content
@@ -48,10 +52,21 @@ struct line lineread(FILE* file) {
 }
 
 void ConvToBin(struct line* line) {
-	line->opcode[0] = Movgetopcode(line->params[0]);
-	line->paramsbin = GetParams(line->instr, line->params, line->paramcount);
+	if (strcmp(line->instr, "MOV") == 0) {
+		line->opcode[0] = Movgetopcode(line->params[0]);
+	}
+	else if (strcmp(line->instr, "NOP") == 0) {
+		line->opcode[0] = 0x90;
+		line->paramcount = 0;
+	}
 
-	printf("output:    %02hhx %02hhx\n", line->opcode[0], line->paramsbin[0]);
+	if (line->paramcount > 0) {
+		line->paramsbin = GetParams(line->instr, line->params, line->paramcount);
+		printf("output:    %02hhx %02hhx\n", line->opcode[0], line->paramsbin[0]);
+	}
+	else {
+		printf("output:    %02hhx\n", line->opcode[0]);
+	}
 }
 
 void freeline(struct line* line) {

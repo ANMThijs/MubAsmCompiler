@@ -8,8 +8,17 @@ void Compile(const char* Filename) {
 		return;
 	}
 
-	while (!feof(InFile)) {
-		struct line line = lineread(InFile);
+	DeleteComments(InFile);
+
+	FILE* NoCommFile;
+	fopen_s(&NoCommFile, "NoComm.asm", "r");
+	if (NoCommFile == NULL) {
+		printf("Failed deleting comments");
+		return;
+	}
+
+	while (!feof(NoCommFile)) {
+		struct line line = lineread(NoCommFile);
 
 		ConvToBin(&line);
 
@@ -17,4 +26,27 @@ void Compile(const char* Filename) {
 	}
 
 	fclose(InFile);
+	fclose(NoCommFile);
+}
+
+void DeleteComments(FILE* file) {
+	FILE* outputfile;
+	fopen_s(&outputfile, "NoComm.asm", "w");
+
+	char buffer[256];
+	while (!feof(file)) {
+		fgets(buffer, 256, file);
+
+		int i = 0;
+		while (buffer[i] != '\0') {
+			if (buffer[i] == ';') {
+				buffer[i] = '\n';
+				i++;
+				break;
+			}
+			i++;
+		}
+		fwrite(buffer, 1, i, outputfile);
+	}
+	fclose(outputfile);
 }

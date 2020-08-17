@@ -23,4 +23,4 @@ const char pointreg32bit[3][4] = {
 
 extern const char segreg16[6][3] = {
 	"CS", "DS", "ES", "FS", "GS", "SS",
-}
+};
