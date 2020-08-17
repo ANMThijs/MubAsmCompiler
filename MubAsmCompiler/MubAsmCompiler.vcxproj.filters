@@ -16,9 +16,6 @@
     <Filter Include="Source Files\Opcodes">
       <UniqueIdentifier>{a26949db-28a4-4a0f-89d8-1c9d8e83c7bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Params">
-      <UniqueIdentifier>{550b63d5-a1dd-4753-8aa7-e0b22e3cd60e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{1afcfc0b-4125-4b8a-9b70-87c1a328f20b}</UniqueIdentifier>
     </Filter>
@@ -32,9 +29,6 @@
     </ClCompile>
     <ClCompile Include="Mov.c">
       <Filter>Source Files\Opcodes</Filter>
-    </ClCompile>
-    <ClCompile Include="Params.c">
-      <Filter>Source Files\Params</Filter>
     </ClCompile>
     <ClCompile Include="CharToInt.c">
       <Filter>Source Files\Common</Filter>
@@ -55,9 +49,6 @@
     </ClInclude>
     <ClInclude Include="Mov.h">
       <Filter>Source Files\Opcodes</Filter>
-    </ClInclude>
-    <ClInclude Include="Params.h">
-      <Filter>Source Files\Params</Filter>
     </ClInclude>
     <ClInclude Include="CharToInt.h">
       <Filter>Source Files\Common</Filter>

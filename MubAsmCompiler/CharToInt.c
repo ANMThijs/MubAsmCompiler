@@ -1,6 +1,6 @@
 #include "CharToInt.h"
 
-int CharToInt(char* string) {
+int CharToInt(uint8_t* string) {
 	int stringsize = strlen(string);
 
 	int ret = 0;
@@ -12,7 +12,7 @@ int CharToInt(char* string) {
 			x -= 0x30;
 		}
 		//Capital A-F
-		else if ((string[i] > 0x40) && (string[i] < 0x48)) {
+		else if ((string[i] > 0x40) && (string[i] < 0x47)) {
 			x -= 0x37;
 		}
 		//Lowercase a-f

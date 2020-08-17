@@ -52,21 +52,62 @@ struct line lineread(FILE* file) {
 }
 
 void ConvToBin(struct line* line) {
-	if (strcmp(line->instr, "MOV") == 0) {
-		line->opcode[0] = Movgetopcode(line->params[0]);
-	}
-	else if (strcmp(line->instr, "NOP") == 0) {
-		line->opcode[0] = 0x90;
-		line->paramcount = 0;
+	FILE* ocfile;
+	fopen_s(&ocfile, "OpcodesOneByte.txt", "r");
+	if (ocfile == NULL) {
+		printf("Failed to find opcodes\n");
+		return;
 	}
 
-	if (line->paramcount > 0) {
-		line->paramsbin = GetParams(line->instr, line->params, line->paramcount);
-		printf("output:    %02hhx %02hhx\n", line->opcode[0], line->paramsbin[0]);
+	while (!feof(ocfile)) {
+		//Get the instruction from the file
+		uint8_t readparamcount = 0;
+		uint8_t buff[7];
+		for (int i = 0; i < 7; i++) {
+			uint8_t c = fgetc(ocfile);
+			buff[i] = c == ' ' ? '\0' : c; //0x20 is ascii code of space
+		}
+		
+		if (strcmp(line->instr, buff) == 0) {
+			for (int i = 0; i < 2; i++) {
+				if (fgetc(ocfile) != ' ') {
+					readparamcount++;
+				}
+				int pos = ftell(ocfile);
+				fseek(ocfile, pos + 8, 0L);
+			}
+			line->paramcount = readparamcount;
+
+			uint8_t opc[5];
+			for (int i = 0; i < 4; i++) {
+				opc[i] = fgetc(ocfile);
+			}
+			opc[4] = '\0';
+			line->opcode[0] = CharToInt(opc);
+			GetParams(line);
+
+			printf("%02hhx ", line->opcode[0]);
+			for (int i = 0; i < line->paramsbincount; i++) {
+				printf("%02hhx ", line->paramsbin[i]);
+			}
+			printf("\n\n");
+		}
 	}
-	else {
-		printf("output:    %02hhx\n", line->opcode[0]);
+	fclose(ocfile);
+}
+
+void GetParams(struct line* line) {
+	uint8_t getparamcount = 0;
+	line->paramsbin = calloc(line->paramcount, sizeof(int)); //Wastes some memory
+
+	for (int i = 0; i < line->paramcount; i++) {
+		if ((line->params[i][0] == '0') && (line->params[i][1] == 'x')) {
+			line->paramsbin[getparamcount] = CharToInt(line->params[1]);
+			getparamcount++;
+		}
 	}
+
+	line->paramsbincount = getparamcount;
 }
 
 void freeline(struct line* line) {

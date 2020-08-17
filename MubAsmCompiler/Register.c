@@ -21,6 +21,22 @@ const char pointreg32bit[3][4] = {
 	"EIP", "ESP", "EBP"
 };
 
-extern const char segreg16[6][3] = {
+extern const char segreg16bit[6][3] = {
 	"CS", "DS", "ES", "FS", "GS", "SS",
 };
+
+int GetRegister(uint8_t* reg) {
+	int len = strlen(reg);
+	if (len == 2) {
+		if ((reg[1] == 'L') || (reg[1] == 'H')) {
+			return 8;
+		}
+		else if ((reg[1] == 'X') || (reg[1] == 'S')) {
+			return 16;
+		}
+	}
+	else if(len == 3) {
+		return 32;
+	}
+	return -1;
+}

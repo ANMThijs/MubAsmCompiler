@@ -34,19 +34,28 @@ void DeleteComments(FILE* file) {
 	fopen_s(&outputfile, "NoComm.asm", "w");
 
 	char buffer[256];
-	while (!feof(file)) {
+	while (1) {
 		fgets(buffer, 256, file);
-
-		int i = 0;
-		while (buffer[i] != '\0') {
-			if (buffer[i] == ';') {
-				buffer[i] = '\n';
-				i++;
-				break;
+		if (!feof(file)) {
+			int pos = 0;
+			while (buffer[pos] != '\0') {
+				if (buffer[pos] == ';') {//found comment start, revert through line to find last character and put \n behind it
+					for (; pos > 0; pos--) {
+						if (buffer[pos - 1] != ' ') {
+							buffer[pos] = '\n';
+							pos++;
+							break;
+						}
+					}
+					break;
+				}
+				pos++;
 			}
-			i++;
+			fwrite(buffer, 1, pos, outputfile);
 		}
-		fwrite(buffer, 1, i, outputfile);
+		else {
+			break;
+		}
 	}
 	fclose(outputfile);
 }
