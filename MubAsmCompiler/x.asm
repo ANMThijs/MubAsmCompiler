@@ -9,3 +9,5 @@ MOV DH, 0x00
 MOV BH, 0x00
 
 INT 0x10
+
+DEC AH

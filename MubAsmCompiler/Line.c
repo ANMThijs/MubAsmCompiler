@@ -89,7 +89,7 @@ void ConvToBin(struct line* line) {
 				line->paramtypes[i] = GetParamType(params[i]);
 			}
 			line->paramcount = readparamcount;
-
+			
 			uint8_t opc[5];
 			for (int i = 0; i < 4; i++) {
 				opc[i] = fgetc(ocfile);

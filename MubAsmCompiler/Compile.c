@@ -37,24 +37,23 @@ void DeleteComments(FILE* file) {
 	char buffer[256];
 	while (1) {
 		fgets(buffer, 256, file);
-		if (!feof(file)) {
-			int pos = 0;
-			while (buffer[pos] != '\0') {
-				if (buffer[pos] == ';') {//found comment start, revert through line to find last character and put \n behind it
-					for (; pos > 0; pos--) {
-						if (buffer[pos - 1] != ' ') {
-							buffer[pos] = '\n';
-							pos++;
-							break;
-						}
+		int pos = 0;
+		while (buffer[pos] != '\0') {
+			if (buffer[pos] == ';') {//found comment start, revert through line to find last character and put \n behind it
+				for (; pos > 0; pos--) {
+					if (buffer[pos - 1] != ' ') {
+						buffer[pos] = '\n';
+						pos++;
+						break;
 					}
-					break;
 				}
-				pos++;
+				break;
 			}
-			fwrite(buffer, 1, pos, outputfile);
+			pos++;
 		}
-		else {
+		fwrite(buffer, 1, pos, outputfile);
+		if (feof(file)) {
+			fputc('\n', outputfile);
 			break;
 		}
 	}
