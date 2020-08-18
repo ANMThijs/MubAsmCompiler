@@ -1,0 +1,6 @@
+Source: http://ref.x86asm.net/coder64.html
+
+The opcodes are stored in a table. 
+First is the assembly register, which are at max 6 chars + a space long
+then come the expected operands, at max 4 and 11 chars + a space long
+then comes the binary opcode, which is 0x.., 4 chars long

@@ -5,6 +5,7 @@ struct line lineread(FILE* file) {
 	struct line line;
 	line.instr = calloc(MAXINSTRLENGTH, sizeof(uint8_t));
 	line.params = calloc(MAXPARAMCOUNT, sizeof(uint8_t*));
+	line.paramtypes = calloc(MAXPARAMCOUNT, sizeof(enum params));
 	for (int i = 0; i < MAXPARAMCOUNT; i++) {
 		line.params[i] = calloc(MAXPARAMLENGTH, sizeof(uint8_t));
 	}
@@ -62,7 +63,7 @@ void ConvToBin(struct line* line) {
 	while (!feof(ocfile)) {
 		//Get the instruction from the file
 		uint8_t readparamcount = 0;
-		uint8_t buff[7];
+		uint8_t buff[7], linebuff[64];
 		for (int i = 0; i < 7; i++) {
 			uint8_t c = fgetc(ocfile);
 			buff[i] = c == ' ' ? '\0' : c; //0x20 is ascii code of space
@@ -74,7 +75,7 @@ void ConvToBin(struct line* line) {
 					readparamcount++;
 				}
 				int pos = ftell(ocfile);
-				fseek(ocfile, pos + 8, 0L);
+				fseek(ocfile, pos + 11, 0L);
 			}
 			line->paramcount = readparamcount;
 
@@ -91,6 +92,9 @@ void ConvToBin(struct line* line) {
 				printf("%02hhx ", line->paramsbin[i]);
 			}
 			printf("\n\n");
+		}
+		else {
+			fgets(linebuff, 64, ocfile);
 		}
 	}
 	fclose(ocfile);
@@ -115,4 +119,5 @@ void freeline(struct line* line) {
 		free(line->params[i]);
 	}
 	free(line->params);
+	free(line->paramtypes);
 }

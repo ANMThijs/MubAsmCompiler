@@ -156,6 +156,7 @@
     <ClInclude Include="Register.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="OpcFileDoc.txt" />
     <Text Include="OpcodesOneByte.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

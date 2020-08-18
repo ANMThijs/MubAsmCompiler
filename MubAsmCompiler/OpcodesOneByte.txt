@@ -1,5 +1,7 @@
-MOV    r8       imm8     0xB0
-MOV    r16/32   imm16/32 0xB8
-INT    3        eFlags   0xCC
-INT    imm8     eFlags   0xCD
-INTO   eFlags            0xCE
+ADD    r/m16/32/64 r16/32/64   0x01
+ADD    r16/32/64   r/m16/32/64 0x03
+MOV    r8          imm8        0xB0
+MOV    r16/32      imm16/32    0xB8
+INT    3           eFlags      0xCC
+INT    imm8        eFlags      0xCD
+INTO   eFlags                  0xCE

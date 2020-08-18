@@ -8,10 +8,20 @@
 #define MAXPARAMCOUNT 4
 #define MAXPARAMLENGTH 10
 
+enum params {
+	reg8 = 0,
+	reg16 = 1,
+	reg32 = 2,
+	imm8 = 3,
+	imm16 = 4,
+	imm32 = 5
+};
+
 struct line {
 	uint8_t* instr;
 	uint8_t** params;
 	uint8_t paramcount;
+	enum params* paramtypes;
 
 	uint8_t opcode[2];
 	uint8_t* paramsbin;

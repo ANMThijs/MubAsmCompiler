@@ -29,6 +29,7 @@ void Compile(const char* Filename) {
 	fclose(NoCommFile);
 }
 
+//Find all the comments in the input file and output a file without comments
 void DeleteComments(FILE* file) {
 	FILE* outputfile;
 	fopen_s(&outputfile, "NoComm.asm", "w");
