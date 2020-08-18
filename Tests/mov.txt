@@ -1,0 +1,30 @@
+AL	b0 fe
+CL	b1 00
+DL	b2 00 
+BL	b3 32 
+AH	b4 af 
+CH	b5 00
+DH	b6 00 
+BH	b7 00
+
+AX	b8 00 00 
+CX	b9 00 00 
+DX	ba 00 00 
+BX	bb 00 00 
+
+EAX	66 b8 00 00 00 00 
+ECX	66 b9 00 00 00 00 
+EDX	66 ba 00 00 00 00 
+EBX	66 bb 00 00 00 00 
+	
+SP	bc 00 00 
+BP	bd 00 00 
+
+ESP	66 bc 00 00 00 00
+EBP	66 bd 00 00 00 00 
+
+SI	be 00 00 
+DI	bf 00 00 
+
+ESI	66 be 00 00 00 00 
+EDI	66 bf 00 00 00 00 

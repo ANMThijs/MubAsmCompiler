@@ -3,16 +3,16 @@
 #include <string.h>
 #include <stdint.h>
 
-extern const char datareg8bit[8][3];
-extern const char datareg16bit[4][3];
-extern const char datareg32bit[4][4];
+extern const uint8_t regcounts[3];
 
-extern const char pointreg16bit[3][3];
-extern const char pointreg32bit[3][4];
-
-extern const char segreg16bit[6][3];
+extern const char reg8bit[8][3];
+extern const char reg16bit[6][3];
+extern const char reg32bit[6][4];
 
 extern uint16_t ContrFlags;
 
-//Returns -1 if it's not a register, otherwise returns 8/16/32 for the bits
-int GetRegister(uint8_t* reg);
+struct Register {
+	uint8_t* name;
+	uint8_t width;
+	uint8_t ID; //Based on the position in the register array
+};

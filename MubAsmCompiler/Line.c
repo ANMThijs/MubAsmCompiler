@@ -5,13 +5,13 @@ struct line lineread(FILE* file) {
 	struct line line;
 	line.instr = calloc(MAXINSTRLENGTH, sizeof(uint8_t));
 	line.params = calloc(MAXPARAMCOUNT, sizeof(uint8_t*));
-	line.paramtypes = calloc(MAXPARAMCOUNT, sizeof(enum params));
+	line.paramtypes = calloc(MAXPARAMCOUNT, sizeof(int));
 	for (int i = 0; i < MAXPARAMCOUNT; i++) {
 		line.params[i] = calloc(MAXPARAMLENGTH, sizeof(uint8_t));
 	}
 
 	//Get a line from the file
-	unsigned char linebuffer[256] = { 0 };
+	uint8_t linebuffer[256] = { 0 };
 	fgets(linebuffer, 256, file);
 	while ((linebuffer[0] == '\0') || (linebuffer[0] == '\n')) {
 		if (feof(file)) {
@@ -26,7 +26,7 @@ struct line lineread(FILE* file) {
 	int x = 0;
 
 	printf("input:     ");
-	for (int i = 0; i < 99; i++) {
+	for (int i = 0; i < 256; i++) {
 		printf("%c", linebuffer[i]);
 		if ((linebuffer[i] == '\n') || (linebuffer[i] == '\0')) {
 			break;
@@ -63,7 +63,7 @@ void ConvToBin(struct line* line) {
 	while (!feof(ocfile)) {
 		//Get the instruction from the file
 		uint8_t readparamcount = 0;
-		uint8_t buff[7], linebuff[64];
+		uint8_t buff[7], linebuff[64], params[2][12] = { 0 };
 		for (int i = 0; i < 7; i++) {
 			uint8_t c = fgetc(ocfile);
 			buff[i] = c == ' ' ? '\0' : c; //0x20 is ascii code of space
@@ -71,11 +71,22 @@ void ConvToBin(struct line* line) {
 		
 		if (strcmp(line->instr, buff) == 0) {
 			for (int i = 0; i < 2; i++) {
-				if (fgetc(ocfile) != ' ') {
-					readparamcount++;
+				for (int j = 0; j < 12; j++) {
+					unsigned char c = fgetc(ocfile);
+					if (c == ' ') {
+						if (j > 0) {
+							readparamcount++;
+						}
+						int pos = ftell(ocfile);
+						pos += 11 - j;
+						fseek(ocfile, pos, 0L);
+						break;
+					}
+					else {
+						params[i][j] = c;
+					}
 				}
-				int pos = ftell(ocfile);
-				fseek(ocfile, pos + 11, 0L);
+				line->paramtypes[i] = GetParamType(params[i]);
 			}
 			line->paramcount = readparamcount;
 
@@ -91,7 +102,7 @@ void ConvToBin(struct line* line) {
 			for (int i = 0; i < line->paramsbincount; i++) {
 				printf("%02hhx ", line->paramsbin[i]);
 			}
-			printf("\n\n");
+			printf("\n");
 		}
 		else {
 			fgets(linebuff, 64, ocfile);
@@ -105,8 +116,13 @@ void GetParams(struct line* line) {
 	line->paramsbin = calloc(line->paramcount, sizeof(int)); //Wastes some memory
 
 	for (int i = 0; i < line->paramcount; i++) {
+		if (line->paramtypes[i] < 4) {
+			if (strcmp(line->instr, "MOV") == 0) {
+				line->opcode[0] = Movgetopcode(line->params[i]);
+			}
+		}
 		if ((line->params[i][0] == '0') && (line->params[i][1] == 'x')) {
-			line->paramsbin[getparamcount] = CharToInt(line->params[1]);
+			line->paramsbin[getparamcount] = CharToInt(line->params[i]);
 			getparamcount++;
 		}
 	}

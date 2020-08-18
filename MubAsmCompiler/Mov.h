@@ -4,5 +4,6 @@
 #include <stdint.h>
 
 #include "Register.h"
+#include "Datatypes.h"
 
-uint8_t Movgetopcode(uint8_t* param1);
+uint8_t Movgetopcode(uint8_t* param);
