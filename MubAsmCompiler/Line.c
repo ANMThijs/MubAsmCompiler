@@ -10,6 +10,9 @@ struct line lineread(FILE* file) {
 		line.params[i] = calloc(MAXPARAMLENGTH, sizeof(uint8_t));
 	}
 
+	line.opcode = malloc(2 * sizeof(uint8_t));
+	line.opcodewidth = 1;
+
 	//Get a line from the file
 	uint8_t linebuffer[256] = { 0 };
 	fgets(linebuffer, 256, file);
@@ -52,25 +55,26 @@ struct line lineread(FILE* file) {
 	return line;
 }
 
-void ConvToBin(struct line* line) {
+void ConvToBin(struct line* line, FILE* outfile) {
 	FILE* ocfile;
 	fopen_s(&ocfile, "OpcodesOneByte.txt", "r");
 	if (ocfile == NULL) {
 		printf("Failed to find opcodes\n");
+		fclose(ocfile);
 		return;
 	}
 
 	while (!feof(ocfile)) {
 		//Get the instruction from the file
 		uint8_t readparamcount = 0;
-		uint8_t buff[7], linebuff[64], params[2][12] = { 0 };
+		uint8_t buff[7], linebuff[64], params[4][12] = { 0 };
 		for (int i = 0; i < 7; i++) {
 			uint8_t c = fgetc(ocfile);
 			buff[i] = c == ' ' ? '\0' : c; //0x20 is ascii code of space
 		}
 		
 		if (strcmp(line->instr, buff) == 0) {
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 12; j++) {
 					unsigned char c = fgetc(ocfile);
 					if (c == ' ') {
@@ -98,9 +102,14 @@ void ConvToBin(struct line* line) {
 			line->opcode[0] = CharToInt(opc);
 			GetParams(line);
 
-			printf("%02hhx ", line->opcode[0]);
+			printf("Output: ");
+			for (int i = 0; i < line->opcodewidth; i++) {
+				printf("%02hhx ", line->opcode[i]);
+				fputc(line->opcode[i], outfile);
+			}
 			for (int i = 0; i < line->paramsbincount; i++) {
 				printf("%02hhx ", line->paramsbin[i]);
+				fputc(line->paramsbin[i], outfile);
 			}
 			printf("\n");
 		}
@@ -118,7 +127,7 @@ void GetParams(struct line* line) {
 	for (int i = 0; i < line->paramcount; i++) {
 		if (line->paramtypes[i] < 4) {
 			if (strcmp(line->instr, "MOV") == 0) {
-				line->opcode[0] = Movgetopcode(line->params[i]);
+				line->opcode = Movgetopcode(line->params[i], &line->opcodewidth);
 			}
 		}
 		if ((line->params[i][0] == '0') && (line->params[i][1] == 'x')) {
@@ -136,4 +145,5 @@ void freeline(struct line* line) {
 	}
 	free(line->params);
 	free(line->paramtypes);
+	free(line->opcode);
 }

@@ -1,7 +1,8 @@
-ADD    r_m16_32_64 r16_32_64   0x01
-ADD    r16_32_64   r_m16_32_64 0x03
-MOV    r8          imm8        0xB0
-MOV    r16_32      imm16_32    0xB8
-INT    3           eFlags      0xCC
-INT    imm8        eFlags      0xCD
-INTO   eFlags                  0xCE
+ADD    r_m16_32_64 r16_32_64                           0x01
+ADD    r16_32_64   r_m16_32_64                         0x03
+MOV    r8          imm8                                0xB0
+MOV    r16_32      imm16_32                            0xB8
+INT    3           eFlags                              0xCC
+INT    imm8        eFlags                              0xCD
+INTO   eFlags                                          0xCE
+DIV    AL          AH          AX          r/m8        0xF6

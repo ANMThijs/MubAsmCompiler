@@ -17,16 +17,24 @@ void Compile(const char* Filename) {
 		return;
 	}
 
+	FILE* outfile =	fopen("x.bin", "wb");
+	if (outfile == NULL) {
+		printf("Failed to open outputfile");
+		fclose(outfile);
+		return;
+	}
+
 	while (!feof(NoCommFile)) {
 		struct line line = lineread(NoCommFile);
 
-		ConvToBin(&line);
+		ConvToBin(&line, outfile);
 
 		freeline(&line);
 	}
 
 	fclose(InFile);
 	fclose(NoCommFile);
+	fclose(outfile);
 }
 
 //Find all the comments in the input file and output a file without comments

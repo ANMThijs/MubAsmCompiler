@@ -15,14 +15,15 @@ struct line {
 	uint8_t paramcount;
 	int* paramtypes;
 
-	uint8_t opcode[2];
+	uint8_t* opcode;
+	int opcodewidth;
 	uint8_t* paramsbin;
 	uint8_t paramsbincount;
 };
 
 struct line lineread(FILE* file);
 
-void ConvToBin(struct line* line);
+void ConvToBin(struct line* lin, FILE* outfile);
 
 void freeline(struct line* line);
 
