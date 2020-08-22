@@ -56,7 +56,7 @@ struct line lineread(FILE* file) {
 	return line;
 }
 
-void ConvToBin(struct line* line, FILE* outfile) {
+int ConvToBin(struct line* line, FILE* outfile) {
 	FILE* ocfile;
 	fopen_s(&ocfile, "OpcodesOneByte.txt", "r");
 	if (ocfile == NULL) {
@@ -94,7 +94,9 @@ void ConvToBin(struct line* line, FILE* outfile) {
 			}
 			line->paramcount = readparamcount;
 			
-			ParamCmp(params[0], line->params[0]);
+			if (!ParamCmp(params[0], line->params[0])) {
+				return -1;
+			}
 
 			uint8_t opc[5];
 			for (int i = 0; i < 4; i++) {
@@ -118,6 +120,8 @@ void ConvToBin(struct line* line, FILE* outfile) {
 		}
 	}
 	fclose(ocfile);
+
+	return 0;
 }
 
 void GetParams(struct line* line) {

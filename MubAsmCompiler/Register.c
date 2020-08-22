@@ -42,36 +42,42 @@ struct Register FillReg(uint8_t* Regname) {
 	int len = strlen(Regname);
 
 	int index = 0;
-	if (len == 2) {
-		if ((Regname[1] == 'L') || (Regname[1] == 'H')) {
-			ret.width = 8;
+	if (isRegister(Regname)) {
+		if (len == 2) {
+			if ((Regname[1] == 'L') || (Regname[1] == 'H')) {
+				ret.width = 8;
+			}
+			else if ((Regname[1] == 'X') || (Regname[1] == 'S')) {
+				ret.width = 16;
+				index = 1;
+			}
 		}
-		else if ((Regname[1] == 'X') || (Regname[1] == 'S')) {
-			ret.width = 16;
-			index = 1;
+		else if (len == 3) {
+			ret.width = 32;
+			index = 2;
 		}
-	}
-	else if (len == 3) {
-		ret.width = 32;
-		index = 2;
-	}
 
-	for (int i = 0; i < regcounts[index]; i++) {
-		if (index == 0) {
-			if (strcmp(reg8bit[i], Regname) == 0) {
-				ret.ID = i;
+		for (int i = 0; i < regcounts[index]; i++) {
+			if (index == 0) {
+				if (strcmp(reg8bit[i], Regname) == 0) {
+					ret.ID = i;
+				}
+			}
+			else if (index == 1) {
+				if (strcmp(reg16bit[i], Regname) == 0) {
+					ret.ID = i;
+				}
+			}
+			else if (index == 2) {
+				if (strcmp(reg32bit[i], Regname) == 0) {
+					ret.ID = i;
+				}
 			}
 		}
-		else if (index == 1) {
-			if (strcmp(reg16bit[i], Regname) == 0) {
-				ret.ID = i;
-			}
-		}
-		else if (index == 2) {
-			if (strcmp(reg32bit[i], Regname) == 0) {
-				ret.ID = i;
-			}
-		}
+	}
+	else {
+		ret.ID = -1;
+		ret.width = 0;
 	}
 	return ret;
 }

@@ -26,9 +26,14 @@ void Compile(const char* Filename) {
 	while (!feof(NoCommFile)) {
 		struct line line = lineread(NoCommFile);
 
-		ConvToBin(&line, outfile);
+		int res = ConvToBin(&line, outfile);
 
 		freeline(&line);
+
+		if (res == -1) {
+			printf("Failed compilation\n");
+			break;
+		}
 	}
 
 	fclose(InFile);

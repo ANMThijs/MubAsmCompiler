@@ -14,7 +14,7 @@ extern uint16_t ContrFlags;
 
 struct Register {
 	uint8_t width;
-	size_t ID; //Based on the position in the register array
+	int ID; //Based on the position in the register array
 };
 
 bool isRegister(uint8_t* name);

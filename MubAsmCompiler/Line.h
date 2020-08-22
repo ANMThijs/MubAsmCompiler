@@ -24,7 +24,7 @@ struct line {
 
 struct line lineread(FILE* file);
 
-void ConvToBin(struct line* lin, FILE* outfile);
+int ConvToBin(struct line* lin, FILE* outfile);
 
 void freeline(struct line* line);
 

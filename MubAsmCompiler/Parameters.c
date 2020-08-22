@@ -19,8 +19,10 @@ bool ParamCmp(uint8_t* expected, uint8_t* param) {
 	if (expected[0] == 'r') {
 		if (!isRegister(param)) {
 			printf("Expected register, did not recieve register\n");
+			return false;
 		}
 	}
+	return true;
 }
 
 int GetParamType(uint8_t* param) {
