@@ -11,5 +11,3 @@ MOV BH, 0x00
 MOV EAX, 0x65
 
 INT 0x10
-
-DEC AH

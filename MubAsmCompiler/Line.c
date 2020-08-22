@@ -6,6 +6,7 @@ struct line lineread(FILE* file) {
 	line.instr = calloc(MAXINSTRLENGTH, sizeof(uint8_t));
 	line.params = calloc(MAXPARAMCOUNT, sizeof(uint8_t*));
 	line.paramtypes = calloc(MAXPARAMCOUNT, sizeof(int));
+	line.paramswidth = malloc(MAXPARAMCOUNT * sizeof(size_t));
 	for (int i = 0; i < MAXPARAMCOUNT; i++) {
 		line.params[i] = calloc(MAXPARAMLENGTH, sizeof(uint8_t));
 	}
@@ -60,7 +61,6 @@ void ConvToBin(struct line* line, FILE* outfile) {
 	fopen_s(&ocfile, "OpcodesOneByte.txt", "r");
 	if (ocfile == NULL) {
 		printf("Failed to find opcodes\n");
-		fclose(ocfile);
 		return;
 	}
 
@@ -94,6 +94,8 @@ void ConvToBin(struct line* line, FILE* outfile) {
 			}
 			line->paramcount = readparamcount;
 			
+			ParamCmp(params[0], line->params[0]);
+
 			uint8_t opc[5];
 			for (int i = 0; i < 4; i++) {
 				opc[i] = fgetc(ocfile);
@@ -104,12 +106,10 @@ void ConvToBin(struct line* line, FILE* outfile) {
 
 			printf("Output: ");
 			for (int i = 0; i < line->opcodewidth; i++) {
-				printf("%02hhx ", line->opcode[i]);
-				fputc(line->opcode[i], outfile);
+				PutData(outfile, sizeof(uint8_t), &line->opcode[i], sizeof(uint8_t));
 			}
 			for (int i = 0; i < line->paramsbincount; i++) {
-				printf("%02hhx ", line->paramsbin[i]);
-				fputc(line->paramsbin[i], outfile);
+				PutData(outfile, line->paramswidth[i], &line->paramsbin[i], sizeof(uint8_t));
 			}
 			printf("\n");
 		}
@@ -122,16 +122,17 @@ void ConvToBin(struct line* line, FILE* outfile) {
 
 void GetParams(struct line* line) {
 	uint8_t getparamcount = 0;
-	line->paramsbin = calloc(line->paramcount, sizeof(int)); //Wastes some memory
+	line->paramsbin = calloc(line->paramcount, sizeof(uint8_t)); //Wastes some memory
 
 	for (int i = 0; i < line->paramcount; i++) {
 		if (line->paramtypes[i] < 4) {
 			if (strcmp(line->instr, "MOV") == 0) {
-				line->opcode = Movgetopcode(line->params[i], &line->opcodewidth);
+				line->opcode = Movgetopcode(line->params[i], &line->paramswidth[i], &line->opcodewidth);
 			}
 		}
 		if ((line->params[i][0] == '0') && (line->params[i][1] == 'x')) {
 			line->paramsbin[getparamcount] = CharToInt(line->params[i]);
+			line->paramswidth[i] = 1;
 			getparamcount++;
 		}
 	}
@@ -145,5 +146,6 @@ void freeline(struct line* line) {
 	}
 	free(line->params);
 	free(line->paramtypes);
+	free(line->paramswidth);
 	free(line->opcode);
 }

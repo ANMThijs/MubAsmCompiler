@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 extern const uint8_t regcounts[3];
 
@@ -12,7 +13,10 @@ extern const char reg32bit[6][4];
 extern uint16_t ContrFlags;
 
 struct Register {
-	uint8_t* name;
 	uint8_t width;
-	uint8_t ID; //Based on the position in the register array
+	size_t ID; //Based on the position in the register array
 };
+
+bool isRegister(uint8_t* name);
+
+struct Register FillReg(uint8_t* Regname);

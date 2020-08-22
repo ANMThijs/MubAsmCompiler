@@ -20,7 +20,6 @@ void Compile(const char* Filename) {
 	FILE* outfile =	fopen("x.bin", "wb");
 	if (outfile == NULL) {
 		printf("Failed to open outputfile");
-		fclose(outfile);
 		return;
 	}
 

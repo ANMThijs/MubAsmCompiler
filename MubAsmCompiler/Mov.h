@@ -6,4 +6,4 @@
 #include "Register.h"
 #include "Datatypes.h"
 
-uint8_t* Movgetopcode(uint8_t* param, int* opcodewidth);
+uint8_t* Movgetopcode(uint8_t* param, size_t* paramwidth, int* opcodewidth);

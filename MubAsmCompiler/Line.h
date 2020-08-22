@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "Mov.h"
-#include "Datatypes.h"
+#include "Parameters.h"
 
 #define MAXINSTRLENGTH 6
 #define MAXPARAMCOUNT 4
@@ -18,6 +18,7 @@ struct line {
 	uint8_t* opcode;
 	int opcodewidth;
 	uint8_t* paramsbin;
+	size_t* paramswidth;
 	uint8_t paramsbincount;
 };
 

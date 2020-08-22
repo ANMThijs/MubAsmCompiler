@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{1afcfc0b-4125-4b8a-9b70-87c1a328f20b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Params">
+      <UniqueIdentifier>{a6ce214a-7a77-4d5f-b1de-2e29eb2c6c0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
@@ -36,10 +39,16 @@
     <ClCompile Include="Compile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Parameters.c">
+      <Filter>Source Files\Params</Filter>
+    </ClCompile>
     <ClCompile Include="Register.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Params</Filter>
     </ClCompile>
     <ClCompile Include="Datatypes.c">
+      <Filter>Source Files\Params</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomInt.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,10 +65,16 @@
     <ClInclude Include="Compile.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Parameters.h">
+      <Filter>Source Files\Params</Filter>
+    </ClInclude>
     <ClInclude Include="Register.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Params</Filter>
     </ClInclude>
     <ClInclude Include="Datatypes.h">
+      <Filter>Source Files\Params</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomInt.h">
       <Filter>Source Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
