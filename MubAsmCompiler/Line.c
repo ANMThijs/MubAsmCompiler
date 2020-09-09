@@ -95,7 +95,8 @@ int ConvToBin(struct line* line, FILE* outfile) {
 			line->paramcount = readparamcount;
 			
 			if (!ParamCmp(params[0], line->params[0])) {
-				return -1;
+				fgets(linebuff, 64, ocfile);
+				continue;
 			}
 
 			uint8_t opc[5];

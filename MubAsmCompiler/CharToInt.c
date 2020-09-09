@@ -4,8 +4,11 @@ int CharToInt(uint8_t* string, int base) {
 	int stringsize = strlen(string);
 
 	int ret = 0;
-
-	for (int i = 2; i < stringsize; i++) {
+	int i = 0;
+	if (string[0] == '0' && (string[1] == 'x' || string[1] == 'b')) {
+		i = 2;
+	}
+	for (; i < stringsize; i++) {
 		int inv = stringsize - i - 1;
 		int x = string[i];
 		if ((string[i] > 0x2F) && (string[i] < 0x3A)) {

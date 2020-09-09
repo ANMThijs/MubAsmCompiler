@@ -25,7 +25,7 @@ bool ParamCmp(uint8_t* expected, uint8_t* param) {
 	}
 	else if (expected[0] == 'i') {
 		int width = isImm(param);
-		int exp = CharToInt(expected[3], 16);
+		int exp = CharToInt(&expected[3], 16);
 		if (exp != width) {
 			printf("Inconsistent data width, expected: %i, recieved: %i", exp, width);
 			return false;
