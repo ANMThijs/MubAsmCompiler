@@ -1,6 +1,6 @@
 #include "CharToInt.h"
 
-int CharToInt(uint8_t* string) {
+int CharToInt(uint8_t* string, int base) {
 	int stringsize = strlen(string);
 
 	int ret = 0;
@@ -19,7 +19,7 @@ int CharToInt(uint8_t* string) {
 		else if ((string[i] > 0x60) && (string[i] < 0x67)) {
 			x -= 0x57;
 		}
-		ret += x * pow(16, inv);
+		ret += x * pow(base, inv);
 	}
 
 	return ret;

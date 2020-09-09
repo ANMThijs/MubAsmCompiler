@@ -3,4 +3,4 @@
 #include <math.h>
 #include <stdint.h>
 
-int CharToInt(uint8_t* string);
+int CharToInt(uint8_t* string, int base);

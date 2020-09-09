@@ -18,7 +18,45 @@ void PutData(FILE* file, size_t output, void* data, size_t datasize) {
 	}
 }
 
-bool isImm(uint8_t* param) {
+int isImm(uint8_t* param) {
+	int val = 0;
+	bool isImm = false;
+	if ((param[0] == '0') && (param[1] == 'x')) {
+		val = CharToInt(param, 16);
+		isImm = true;
+	}
+	else if ((param[0] == '0') && (param[1] == 'b')) {
+		val = CharToInt(param, 2);
+		isImm = true;
+	}
+	else {
+		int len = strlen(param);
+		for (int i = 0; i < len; i++) {
+			if ((param[i] <= 0x30) || (param[i] >= 0x39)) {
+				isImm = false;
+			}
+		}
+		val = CharToInt(param, 10);
+	}
+	
+	if (isImm == true) {
+		if (val < pow(2, 8)) {
+			return 8;
+		}
+		else if (val < pow(2, 16)) {
+			return 16;
+		}
+		else if (val < pow(2, 32)) {
+			return 32;
+		}
+		else if (val < pow(2, 64)) {
+			return 64;
+		}
+	}
+	return -1;
+}
+
+bool isNum(uint8_t* param) {
 	if ((param[0] == '0') && (param[1] == 'x')) {
 		return true;
 	}
@@ -32,6 +70,6 @@ bool isImm(uint8_t* param) {
 				return false;
 			}
 		}
+		return true;
 	}
-	return true;
 }

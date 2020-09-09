@@ -103,7 +103,7 @@ int ConvToBin(struct line* line, FILE* outfile) {
 				opc[i] = fgetc(ocfile);
 			}
 			opc[4] = '\0';
-			line->opcode[0] = CharToInt(opc);
+			line->opcode[0] = CharToInt(opc, 16);
 			GetParams(line);
 
 			printf("Output: ");
@@ -135,7 +135,7 @@ void GetParams(struct line* line) {
 			}
 		}
 		if ((line->params[i][0] == '0') && (line->params[i][1] == 'x')) {
-			line->paramsbin[getparamcount] = CharToInt(line->params[i]);
+			line->paramsbin[getparamcount] = CharToInt(line->params[i], 16);
 			line->paramswidth[i] = 1;
 			getparamcount++;
 		}

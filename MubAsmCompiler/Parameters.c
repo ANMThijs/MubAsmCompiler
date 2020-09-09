@@ -16,9 +16,25 @@ uint8_t paramtypes[PARAM_TYPE_COUNT][5] = {
 };
 
 bool ParamCmp(uint8_t* expected, uint8_t* param) {
+	char* pEnd;
 	if (expected[0] == 'r') {
 		if (!isRegister(param)) {
 			printf("Expected register, did not recieve register\n");
+			return false;
+		}
+	}
+	else if (expected[0] == 'i') {
+		int width = isImm(param);
+		int exp = CharToInt(expected[3], 16);
+		if (exp != width) {
+			printf("Inconsistent data width, expected: %i, recieved: %i", exp, width);
+			return false;
+		}
+	}
+	else if (isNum(expected)) {
+		int val1 = CharToInt(expected, 16);
+		int val2 = CharToInt(param, 16);
+		if (val1 != val2) {
 			return false;
 		}
 	}
@@ -40,7 +56,7 @@ int GetParamType(uint8_t* param) {
 		}
 	}
 	else if (isImm(param)) {
-		int s = CharToInt(param);
+		int s = CharToInt(param, 16);
 		if (s < pow(2, 8)) {
 			return 8;
 		}
